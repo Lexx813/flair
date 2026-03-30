@@ -24,8 +24,8 @@ export default function StructureView({ structureId, unit, onBack }) {
   const { data: rooms, isLoading: rLoading, error: rError } = useStructureRooms(structureId)
   const { mutate: updateStructure } = useUpdateStructure(structureId)
 
-  const { data: weather }       = useStructureWeather(structureId)
-  const { data: schedules }     = useStructureSchedules(structureId)
+  const { data: weather }                          = useStructureWeather(structureId)
+  const { data: schedules, error: schedulesError } = useStructureSchedules(structureId)
   const { data: thermostats }   = useStructureThermostats(structureId)
   const { data: remoteSensors } = useStructureRemoteSensors(structureId)
   const { data: alerts }        = useStructureAlerts(structureId)
@@ -127,10 +127,13 @@ export default function StructureView({ structureId, unit, onBack }) {
         </div>
       )}
 
-      {schedules?.length > 0 && (
+      {(schedules?.length > 0 || schedulesError) && (
         <div className="flex flex-col gap-3">
           <SectionHeading>Schedules</SectionHeading>
-          <ScheduleList schedules={schedules} unit={unit} />
+          {schedulesError
+            ? <p className="text-xs" style={{ color: 'var(--error)' }}>{schedulesError.message}</p>
+            : <ScheduleList schedules={schedules} unit={unit} />
+          }
         </div>
       )}
     </div>
