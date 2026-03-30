@@ -2,26 +2,35 @@ import { useState, useRef, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import {
   Home, RefreshCw, Settings2, ChevronDown, Calendar, Thermometer,
-  Minus, Plus, Cloud, ToggleRight, X,
+  Minus, Plus, Cloud, X,
 } from 'lucide-react'
 import { formatTemp } from './TempDisplay'
 import { useQueryClient } from '@tanstack/react-query'
 
+// Desktop-only vertical rule between sections
 function Divider() {
   return (
     <div
-      className="self-stretch flex-shrink-0"
+      className="hidden md:block self-stretch flex-shrink-0"
       style={{ width: '1px', background: 'var(--divider)', margin: '10px 0' }}
     />
   )
 }
 
-function Section({ icon, label, children, minWidth }) {
+// Mobile-only full-width horizontal rule between grid rows
+function RowBreak() {
   return (
     <div
-      className="flex items-center gap-3 px-5 py-3.5 flex-1"
-      style={{ minWidth: minWidth ?? 100 }}
-    >
+      className="col-span-2 md:hidden"
+      style={{ height: '1px', background: 'var(--divider)' }}
+    />
+  )
+}
+
+// className is forwarded so callers can add col-span-2 etc. for grid layout
+function Section({ icon, label, children, className = '' }) {
+  return (
+    <div className={`flex items-center gap-2 md:gap-3 px-4 md:px-5 py-3 md:py-3.5 w-full md:flex-1 md:w-auto min-w-0 ${className}`}>
       <div className="flex-shrink-0" style={{ color: 'var(--text-secondary)' }}>
         {icon}
       </div>
@@ -37,7 +46,6 @@ function Section({ icon, label, children, minWidth }) {
   )
 }
 
-// Shared portal dropdown — renders options list into document.body
 function InlineDropdown({ value, options, onChange, placeholder }) {
   const [open, setOpen] = useState(false)
   const [pos, setPos] = useState({ top: 0, left: 0 })
@@ -61,11 +69,7 @@ function InlineDropdown({ value, options, onChange, placeholder }) {
 
   return (
     <div ref={triggerRef} className="relative">
-      <button
-        type="button"
-        onClick={handleOpen}
-        className="flex items-center gap-1 cursor-pointer"
-      >
+      <button type="button" onClick={handleOpen} className="flex items-center gap-1 cursor-pointer">
         <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
           {selected?.label ?? placeholder ?? '—'}
         </span>
@@ -139,7 +143,7 @@ const HOLD_OPTIONS = [
   { value: 'tonight', label: 'Until tonight' },
 ]
 
-function SetPointSection({ setPointC, unit, onSetPointChange, holdUntil, onHold }) {
+function SetPointSection({ setPointC, unit, onSetPointChange, holdUntil, onHold, className }) {
   const [adjusting, setAdjusting] = useState(false)
   const [holdOpen, setHoldOpen] = useState(false)
   const [holdPos, setHoldPos] = useState({ top: 0, left: 0 })
@@ -176,7 +180,7 @@ function SetPointSection({ setPointC, unit, onSetPointChange, holdUntil, onHold 
   }
 
   return (
-    <Section icon={<Thermometer size={18} />} label={`Set: ${formatTemp(setPointC, unit)}`} minWidth={140}>
+    <Section icon={<Thermometer size={18} />} label={`Set: ${formatTemp(setPointC, unit)}`} className={className}>
       {adjusting ? (
         <div className="flex items-center gap-1.5">
           <button
@@ -193,11 +197,7 @@ function SetPointSection({ setPointC, unit, onSetPointChange, holdUntil, onHold 
           >
             <Plus size={10} style={{ color: 'var(--accent)' }} />
           </button>
-          <button
-            onClick={() => setAdjusting(false)}
-            className="text-[10px] cursor-pointer"
-            style={{ color: 'var(--text-muted)' }}
-          >
+          <button onClick={() => setAdjusting(false)} className="text-[10px] cursor-pointer" style={{ color: 'var(--text-muted)' }}>
             Done
           </button>
         </div>
@@ -209,12 +209,7 @@ function SetPointSection({ setPointC, unit, onSetPointChange, holdUntil, onHold 
           >
             Until {formatHoldTime(holdUntil)}
           </span>
-          <button
-            onClick={() => onHold('clear')}
-            title="Clear hold"
-            className="cursor-pointer"
-            style={{ color: 'var(--text-muted)' }}
-          >
+          <button onClick={() => onHold('clear')} title="Clear hold" className="cursor-pointer" style={{ color: 'var(--text-muted)' }}>
             <X size={10} />
           </button>
         </div>
@@ -282,17 +277,11 @@ function SetPointSection({ setPointC, unit, onSetPointChange, holdUntil, onHold 
 }
 
 export default function StructureHeader({
-  structure,
-  unit,
-  weather,
-  schedules,
-  onModeChange,
-  onSetPointChange,
-  onHomeAwayChange,
-  onHeatCoolChange,
-  onHold,
+  structure, unit, weather, schedules,
+  onModeChange, onSetPointChange, onHomeAwayChange, onHeatCoolChange, onHold,
 }) {
   const qc = useQueryClient()
+  const [expanded, setExpanded] = useState(false)
   const attrs = structure.attributes
   const name = attrs.name || 'My Home'
   const mode = attrs.mode
@@ -307,7 +296,6 @@ export default function StructureHeader({
     ?? schedules?.find(s => s.attributes.enabled !== false)
     ?? null
 
-  // Weather — Flair may use different field names; handle defensively
   const wAttrs = weather?.attributes
   const wTempC = wAttrs?.['temperature-c'] ?? wAttrs?.['outdoor-temperature-c'] ?? null
   const wHumidity = wAttrs?.humidity ?? wAttrs?.['outdoor-humidity'] ?? null
@@ -315,96 +303,124 @@ export default function StructureHeader({
 
   return (
     <div
-      className="rounded-2xl flex items-stretch overflow-x-auto"
+      className="rounded-2xl overflow-hidden md:grid-cols-none md:flex md:items-stretch md:overflow-x-auto"
       style={{
         background: 'var(--card-gradient)',
         boxShadow: 'var(--card-shadow)',
         border: '1px solid var(--border-subtle)',
       }}
     >
-      {/* Structure name */}
-      <Section icon={<Home size={18} />} label={name} minWidth={130}>
-        <button
-          onClick={() => onHomeAwayChange?.(isHome ? 'away' : 'home')}
-          className="text-xs font-semibold px-2.5 py-1 rounded-full cursor-pointer transition-all"
-          style={isHome
-            ? { background: 'var(--accent-bg)', color: 'var(--accent)', border: '1px solid var(--accent-border)' }
-            : { background: 'rgba(239,68,68,0.12)', color: '#F87171', border: '1px solid rgba(239,68,68,0.25)' }
-          }
-        >
-          {isHome ? '● Home' : '● Away'}
-        </button>
-      </Section>
+      {/* Always-visible top row on mobile: Name + toggle + Refresh */}
+      <div className="flex items-center md:contents">
+        {/* Name + Home/Away */}
+        <Section icon={<Home size={18} />} label={name} className="flex-1">
+          <button
+            onClick={() => onHomeAwayChange?.(isHome ? 'away' : 'home')}
+            className="text-xs font-semibold px-2.5 py-1 rounded-full cursor-pointer transition-all"
+            style={isHome
+              ? { background: 'var(--accent-bg)', color: 'var(--accent)', border: '1px solid var(--accent-border)' }
+              : { background: 'rgba(239,68,68,0.12)', color: '#F87171', border: '1px solid rgba(239,68,68,0.25)' }
+            }
+          >
+            {isHome ? '● Home' : '● Away'}
+          </button>
+        </Section>
 
-      <Divider />
-
-      {/* Weather */}
-      <Section icon={<Cloud size={18} />} label={wCondition ?? 'Weather'} minWidth={110}>
-        <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
-          {wTempC != null ? formatTemp(wTempC, unit) : '—'}
-          {wHumidity != null ? ` · ${Math.round(wHumidity)}%` : ''}
-        </span>
-      </Section>
-
-      <Divider />
-
-      {/* Set point — Auto mode only */}
-      {isAuto && setPoint != null && onSetPointChange && (
-        <>
-          <SetPointSection
-            setPointC={setPoint}
-            unit={unit}
-            onSetPointChange={onSetPointChange}
-            holdUntil={holdUntil}
-            onHold={onHold}
-          />
-          <Divider />
-        </>
-      )}
-
-      {/* System: Heat/Cool + Auto/Manual */}
-      <Section icon={<Settings2 size={18} />} label="System" minWidth={130}>
-        <div className="flex items-center gap-2">
-          <InlineDropdown
-            value={heatCoolMode}
-            options={CLIMATE_OPTIONS}
-            onChange={onHeatCoolChange}
-          />
-          <span style={{ color: 'var(--divider)', fontSize: 10 }}>·</span>
-          <InlineDropdown
-            value={mode}
-            options={SYSTEM_OPTIONS}
-            onChange={onModeChange}
-          />
+        {/* Mobile-only: collapse toggle + refresh in top-right */}
+        <div className="flex items-center gap-1 pr-3 md:hidden flex-shrink-0">
+          <button
+            onClick={() => qc.invalidateQueries()}
+            title="Refresh all"
+            aria-label="Refresh all data"
+            className="w-8 h-8 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-150"
+            style={{ background: 'var(--btn-ghost-bg)', border: '1px solid var(--border-default)' }}
+          >
+            <RefreshCw size={13} style={{ color: 'var(--text-muted)' }} />
+          </button>
+          <button
+            onClick={() => setExpanded(e => !e)}
+            aria-label={expanded ? 'Collapse details' : 'Expand details'}
+            className="w-8 h-8 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-150"
+            style={{ background: 'var(--btn-ghost-bg)', border: '1px solid var(--border-default)' }}
+          >
+            <ChevronDown
+              size={14}
+              style={{
+                color: 'var(--text-muted)',
+                transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+                transition: 'transform 200ms ease',
+              }}
+            />
+          </button>
         </div>
-      </Section>
 
-      <Divider />
+        <Divider />
+      </div>
 
-      {/* Schedule */}
-      <Section icon={<Calendar size={18} />} label="Schedule" minWidth={110}>
-        <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
-          {activeSchedule
-            ? (activeSchedule.attributes.name || 'Active')
-            : schedules?.length
-              ? `${schedules.length} schedule${schedules.length !== 1 ? 's' : ''}`
-              : 'No Schedule'}
-        </span>
-      </Section>
+      {/* Collapsible body — always visible on desktop, toggled on mobile */}
+      <div className={`${expanded ? 'grid' : 'hidden'} grid-cols-2 md:contents`}>
+        {/* Weather */}
+        <Section icon={<Cloud size={18} />} label={wCondition ?? 'Weather'}>
+          <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
+            {wTempC != null ? formatTemp(wTempC, unit) : '—'}
+            {wHumidity != null ? ` · ${Math.round(wHumidity)}%` : ''}
+          </span>
+        </Section>
 
-      <Divider />
+        <RowBreak />
 
-      {/* Refresh */}
-      <div className="flex items-center px-4 flex-shrink-0">
-        <button
-          onClick={() => qc.invalidateQueries()}
-          title="Refresh all"
-          aria-label="Refresh all data"
-          className="w-8 h-8 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-150"
-          style={{ background: 'var(--btn-ghost-bg)', border: '1px solid var(--border-default)' }}
-        >
-          <RefreshCw size={13} style={{ color: 'var(--text-muted)' }} />
-        </button>
+        {/* Set point — Auto mode only, full width on mobile */}
+        {isAuto && setPoint != null && onSetPointChange && (
+          <>
+            <SetPointSection
+              className="col-span-2"
+              setPointC={setPoint}
+              unit={unit}
+              onSetPointChange={onSetPointChange}
+              holdUntil={holdUntil}
+              onHold={onHold}
+            />
+            <RowBreak />
+            <Divider />
+          </>
+        )}
+
+        {/* System: Heat/Cool + Auto/Manual */}
+        <Section icon={<Settings2 size={18} />} label="System">
+          <div className="flex items-center gap-2">
+            <InlineDropdown value={heatCoolMode} options={CLIMATE_OPTIONS} onChange={onHeatCoolChange} />
+            <span style={{ color: 'var(--divider)', fontSize: 10 }}>·</span>
+            <InlineDropdown value={mode} options={SYSTEM_OPTIONS} onChange={onModeChange} />
+          </div>
+        </Section>
+
+        <Divider />
+
+        {/* Schedule */}
+        <Section icon={<Calendar size={18} />} label="Schedule">
+          <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
+            {activeSchedule
+              ? (activeSchedule.attributes.name || 'Active')
+              : schedules?.length
+                ? `${schedules.length} schedule${schedules.length !== 1 ? 's' : ''}`
+                : 'No Schedule'}
+          </span>
+        </Section>
+
+        <Divider />
+
+        {/* Refresh — desktop only (mobile refresh is in the top row) */}
+        <div className="hidden md:flex items-center justify-end px-4 py-3 md:py-0 md:flex-shrink-0">
+          <button
+            onClick={() => qc.invalidateQueries()}
+            title="Refresh all"
+            aria-label="Refresh all data"
+            className="w-8 h-8 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-150"
+            style={{ background: 'var(--btn-ghost-bg)', border: '1px solid var(--border-default)' }}
+          >
+            <RefreshCw size={13} style={{ color: 'var(--text-muted)' }} />
+          </button>
+        </div>
       </div>
     </div>
   )

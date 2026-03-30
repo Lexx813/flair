@@ -1,11 +1,18 @@
 import { useState, useCallback } from 'react'
+import { Routes, Route, useNavigate, useParams } from 'react-router-dom'
 import { Wind, Sun, Moon, Menu } from 'lucide-react'
 import StructureList from './components/StructureList'
 import StructureView from './components/StructureView'
 import Sidebar from './components/Sidebar'
 
+function StructureViewRoute({ unit }) {
+  const { id } = useParams()
+  const navigate = useNavigate()
+  return <StructureView structureId={id} unit={unit} onBack={() => navigate('/')} />
+}
+
 export default function App() {
-  const [structureId, setStructureId] = useState(null)
+  const navigate = useNavigate()
   const [unit, setUnit] = useState('F')
   const [theme, setTheme] = useState(() => {
     const saved = localStorage.getItem('theme')
@@ -101,15 +108,10 @@ export default function App() {
 
       {/* Content */}
       <main className="max-w-4xl mx-auto px-5 py-7">
-        {structureId ? (
-          <StructureView
-            structureId={structureId}
-            unit={unit}
-            onBack={() => setStructureId(null)}
-          />
-        ) : (
-          <StructureList unit={unit} onSelect={setStructureId} />
-        )}
+        <Routes>
+          <Route path="/" element={<StructureList unit={unit} onSelect={id => navigate(`/structure/${id}`)} />} />
+          <Route path="/structure/:id" element={<StructureViewRoute unit={unit} />} />
+        </Routes>
       </main>
     </div>
   )
