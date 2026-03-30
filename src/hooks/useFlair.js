@@ -136,6 +136,90 @@ export function useUpdateHvacUnit(hvacUnitId, puck2Id) {
   })
 }
 
+// ── Weather ───────────────────────────────────────────────────────────────────
+
+export function useStructureWeather(structureId) {
+  return useQuery({
+    queryKey: ['structure', structureId, 'weather'],
+    queryFn: () => api.getStructureWeather(structureId),
+    enabled: !!structureId,
+    staleTime: STALE,
+    retry: false,
+  })
+}
+
+// ── Schedules ─────────────────────────────────────────────────────────────────
+
+export function useStructureSchedules(structureId) {
+  return useQuery({
+    queryKey: ['structure', structureId, 'schedules'],
+    queryFn: () => api.getStructureSchedules(structureId),
+    enabled: !!structureId,
+    staleTime: STALE,
+    retry: false,
+  })
+}
+
+// ── Thermostats ───────────────────────────────────────────────────────────────
+
+export function useStructureThermostats(structureId) {
+  return useQuery({
+    queryKey: ['structure', structureId, 'thermostats'],
+    queryFn: () => api.getStructureThermostats(structureId),
+    enabled: !!structureId,
+    staleTime: STALE,
+    retry: false,
+  })
+}
+
+export function useUpdateThermostat(thermostatId, structureId) {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: (attributes) => api.updateThermostat(thermostatId, attributes),
+    onMutate: async (attributes) => {
+      await qc.cancelQueries({ queryKey: ['structure', structureId, 'thermostats'] })
+      const previous = qc.getQueryData(['structure', structureId, 'thermostats'])
+      qc.setQueryData(['structure', structureId, 'thermostats'], (old) =>
+        old?.map(t => t.id === thermostatId
+          ? { ...t, attributes: { ...t.attributes, ...attributes } }
+          : t
+        )
+      )
+      return { previous }
+    },
+    onError: (_err, _vars, context) => {
+      if (context?.previous) {
+        qc.setQueryData(['structure', structureId, 'thermostats'], context.previous)
+      }
+    },
+    onSettled: () => qc.invalidateQueries({ queryKey: ['structure', structureId, 'thermostats'] }),
+  })
+}
+
+// ── Remote Sensors ────────────────────────────────────────────────────────────
+
+export function useStructureRemoteSensors(structureId) {
+  return useQuery({
+    queryKey: ['structure', structureId, 'remote-sensors'],
+    queryFn: () => api.getStructureRemoteSensors(structureId),
+    enabled: !!structureId,
+    staleTime: STALE,
+    retry: false,
+  })
+}
+
+// ── Alerts ────────────────────────────────────────────────────────────────────
+
+export function useStructureAlerts(structureId) {
+  return useQuery({
+    queryKey: ['structure', structureId, 'alerts'],
+    queryFn: () => api.getStructureAlerts(structureId),
+    enabled: !!structureId,
+    staleTime: STALE,
+    retry: false,
+  })
+}
+
 // ── Vents ─────────────────────────────────────────────────────────────────────
 
 export function useRoomVents(roomId) {

@@ -78,6 +78,14 @@
   --retry-bg:           rgba(255,255,255,0.08);
   --retry-color:        #94A3B8;
   --retry-border:       rgba(255,255,255,0.10);
+
+  --warning:            #F59E0B;
+  --warning-bg:         rgba(245,158,11,0.15);
+  --warning-border:     rgba(245,158,11,0.30);
+
+  --hold-bg:            rgba(99,102,241,0.12);
+  --hold-color:         #818CF8;
+  --hold-border:        rgba(99,102,241,0.25);
 }
 
 /* ── Light theme ─────────────────────────────────────────── */
@@ -157,6 +165,14 @@
   --retry-bg:           rgba(0,0,0,0.05);
   --retry-color:        #64748B;
   --retry-border:       rgba(0,0,0,0.10);
+
+  --warning:            #D97706;
+  --warning-bg:         rgba(217,119,6,0.10);
+  --warning-border:     rgba(217,119,6,0.30);
+
+  --hold-bg:            rgba(99,102,241,0.10);
+  --hold-color:         #6366F1;
+  --hold-border:        rgba(99,102,241,0.25);
 }
 
 /* ── Base ────────────────────────────────────────────────── */

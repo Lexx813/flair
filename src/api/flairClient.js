@@ -133,6 +133,49 @@ export async function updateVent(id, attributes) {
   return data
 }
 
+// ── Weather ───────────────────────────────────────────────────────────────────
+
+export async function getStructureWeather(structureId) {
+  const { data } = await apiFetch(`/structures/${structureId}/current-weather`)
+  return data
+}
+
+// ── Schedules ─────────────────────────────────────────────────────────────────
+
+export async function getStructureSchedules(structureId) {
+  const { data } = await apiFetch(`/structures/${structureId}/schedules`)
+  return data
+}
+
+// ── Thermostats ───────────────────────────────────────────────────────────────
+
+export async function getStructureThermostats(structureId) {
+  const { data } = await apiFetch(`/structures/${structureId}/thermostats`)
+  return data
+}
+
+export async function updateThermostat(id, attributes) {
+  const { data } = await apiFetch(`/thermostats/${id}`, {
+    method: 'PATCH',
+    body: JSON.stringify({ data: { id, type: 'thermostats', attributes } }),
+  })
+  return data
+}
+
+// ── Remote Sensors ────────────────────────────────────────────────────────────
+
+export async function getStructureRemoteSensors(structureId) {
+  const { data } = await apiFetch(`/structures/${structureId}/remote-sensors`)
+  return data
+}
+
+// ── Alerts ────────────────────────────────────────────────────────────────────
+
+export async function getStructureAlerts(structureId) {
+  const { data } = await apiFetch(`/structures/${structureId}/alerts`)
+  return data
+}
+
 // ── HVAC Units ────────────────────────────────────────────────────────────────
 
 export async function getStructureHvacUnits(structureId) {
