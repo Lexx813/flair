@@ -1,6 +1,3 @@
-const CLIENT_ID = import.meta.env.VITE_FLAIR_CLIENT_ID
-const CLIENT_SECRET = import.meta.env.VITE_FLAIR_CLIENT_SECRET
-
 let tokenData = null
 
 async function getToken() {
@@ -8,17 +5,7 @@ async function getToken() {
     return tokenData.accessToken
   }
 
-  const body = new URLSearchParams({
-    grant_type: 'client_credentials',
-    client_id: CLIENT_ID,
-    client_secret: CLIENT_SECRET,
-  })
-
-  const res = await fetch('/oauth2/token', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body,
-  })
+  const res = await fetch('/api/token', { method: 'POST' })
 
   if (!res.ok) {
     const errText = await res.text()
