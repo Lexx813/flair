@@ -321,16 +321,16 @@ export default function StructureHeader({
       }}
     >
       {/* Structure name */}
-      <Section icon={<Home size={18} />} label={name} minWidth={120}>
+      <Section icon={<Home size={18} />} label={name} minWidth={130}>
         <button
           onClick={() => onHomeAwayChange?.(isHome ? 'away' : 'home')}
-          className="text-xs px-2 py-0.5 rounded-full cursor-pointer transition-all"
+          className="text-xs font-semibold px-2.5 py-1 rounded-full cursor-pointer transition-all"
           style={isHome
             ? { background: 'var(--accent-bg)', color: 'var(--accent)', border: '1px solid var(--accent-border)' }
-            : { background: 'var(--btn-ghost-bg)', color: 'var(--text-muted)', border: '1px solid var(--border-default)' }
+            : { background: 'rgba(239,68,68,0.12)', color: '#F87171', border: '1px solid rgba(239,68,68,0.25)' }
           }
         >
-          {isHome ? 'Home' : 'Away'}
+          {isHome ? '● Home' : '● Away'}
         </button>
       </Section>
 
