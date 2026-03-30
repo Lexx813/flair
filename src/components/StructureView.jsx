@@ -8,6 +8,7 @@ import RoomCard from './RoomCard'
 import ThermostatCard from './ThermostatCard'
 import RemoteSensorList from './RemoteSensorList'
 import AlertList from './AlertList'
+import ScheduleList from './ScheduleList'
 import Spinner from './Spinner'
 
 function SectionHeading({ children }) {
@@ -123,6 +124,13 @@ export default function StructureView({ structureId, unit, onBack }) {
         <div className="flex flex-col gap-3">
           <SectionHeading>Remote Sensors</SectionHeading>
           <RemoteSensorList sensors={remoteSensors} unit={unit} />
+        </div>
+      )}
+
+      {schedules?.length > 0 && (
+        <div className="flex flex-col gap-3">
+          <SectionHeading>Schedules</SectionHeading>
+          <ScheduleList schedules={schedules} unit={unit} />
         </div>
       )}
     </div>

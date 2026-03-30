@@ -147,6 +147,11 @@ export async function getStructureSchedules(structureId) {
   return data
 }
 
+export async function getScheduleEntries(scheduleId) {
+  const { data } = await apiFetch(`/schedules/${scheduleId}/schedule-entries`)
+  return data
+}
+
 // ── Thermostats ───────────────────────────────────────────────────────────────
 
 export async function getStructureThermostats(structureId) {
