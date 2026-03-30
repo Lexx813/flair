@@ -3,6 +3,10 @@
     {
       "source": "/flair/:path*",
       "destination": "https://api.flair.co/:path*"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
     }
   ]
 }
