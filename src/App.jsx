@@ -1,12 +1,14 @@
 import { useState, useCallback } from 'react'
-import { Wind, Sun, Moon } from 'lucide-react'
+import { Wind, Sun, Moon, Menu } from 'lucide-react'
 import StructureList from './components/StructureList'
 import StructureView from './components/StructureView'
+import Sidebar from './components/Sidebar'
 
 export default function App() {
   const [structureId, setStructureId] = useState(null)
   const [unit, setUnit] = useState('F')
   const [theme, setTheme] = useState('dark')
+  const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const toggleTheme = useCallback(() => {
     const html = document.documentElement
@@ -21,6 +23,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen" style={{ background: 'var(--bg-base)' }}>
+      <Sidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
       {/* Nav */}
       <header
         className="sticky top-0 z-50"
@@ -31,7 +34,16 @@ export default function App() {
         }}
       >
         <div className="max-w-4xl mx-auto px-5 h-14 flex items-center justify-between">
-          {/* Brand */}
+          {/* Menu + Brand */}
+          <div className="flex items-center gap-3">
+          <button
+            onClick={() => setSidebarOpen(true)}
+            aria-label="Open menu"
+            className="w-9 h-9 flex items-center justify-center rounded-lg cursor-pointer transition-all duration-150"
+            style={{ background: 'var(--btn-ghost-bg)', border: '1px solid var(--btn-ghost-border)' }}
+          >
+            <Menu size={16} style={{ color: 'var(--text-secondary)' }} />
+          </button>
           <div className="flex items-center gap-2.5">
             <div
               className="w-7 h-7 rounded-lg flex items-center justify-center"
@@ -42,6 +54,7 @@ export default function App() {
             <span className="font-semibold text-sm tracking-tight" style={{ color: 'var(--text-primary)' }}>
               Flair
             </span>
+          </div>
           </div>
 
           {/* Controls */}
