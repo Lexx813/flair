@@ -160,15 +160,6 @@ export function useStructureSchedules(structureId) {
   })
 }
 
-export function useScheduleEntries(scheduleId) {
-  return useQuery({
-    queryKey: ['schedule', scheduleId, 'entries'],
-    queryFn: () => api.getScheduleEntries(scheduleId),
-    enabled: !!scheduleId,
-    staleTime: STALE,
-    retry: false,
-  })
-}
 
 // ── Thermostats ───────────────────────────────────────────────────────────────
 
