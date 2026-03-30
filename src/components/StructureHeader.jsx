@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import { createPortal } from 'react-dom'
 import { Home, RefreshCw, Settings2, ChevronDown, Calendar, Thermometer, Minus, Plus, Cloud } from 'lucide-react'
 import { formatTemp } from './TempDisplay'
 import { useQueryClient } from '@tanstack/react-query'
@@ -37,24 +38,31 @@ function Section({ icon, label, children }) {
 
 function SystemDropdown({ mode, onModeChange }) {
   const [open, setOpen] = useState(false)
-  const ref = useRef(null)
+  const [pos, setPos] = useState({ top: 0, left: 0 })
+  const triggerRef = useRef(null)
 
   useEffect(() => {
     if (!open) return
     function onOutside(e) {
-      if (ref.current && !ref.current.contains(e.target)) setOpen(false)
+      if (triggerRef.current && !triggerRef.current.contains(e.target)) setOpen(false)
     }
     document.addEventListener('mousedown', onOutside)
     return () => document.removeEventListener('mousedown', onOutside)
   }, [open])
 
+  function handleOpen() {
+    const rect = triggerRef.current.getBoundingClientRect()
+    setPos({ top: rect.bottom + window.scrollY + 6, left: rect.left + window.scrollX })
+    setOpen(o => !o)
+  }
+
   const selected = SYSTEM_OPTIONS.find(o => o.value === mode) ?? SYSTEM_OPTIONS[1]
 
   return (
-    <div ref={ref} className="relative">
+    <div ref={triggerRef} className="relative">
       <button
         type="button"
-        onClick={() => setOpen(o => !o)}
+        onClick={handleOpen}
         className="flex items-center gap-1 cursor-pointer"
       >
         <span className="text-xs" style={{ color: 'var(--text-muted)' }}>{selected.label}</span>
@@ -68,14 +76,20 @@ function SystemDropdown({ mode, onModeChange }) {
         />
       </button>
 
-      {open && (
+      {open && createPortal(
         <div
           role="listbox"
-          className="absolute top-full left-0 mt-1.5 rounded-xl overflow-hidden z-50 min-w-[90px]"
           style={{
+            position: 'absolute',
+            top: pos.top,
+            left: pos.left,
+            minWidth: 90,
+            zIndex: 9999,
             background: 'var(--dropdown-bg)',
             border: '1px solid var(--dropdown-border)',
             boxShadow: 'var(--dropdown-shadow)',
+            borderRadius: '0.75rem',
+            overflow: 'hidden',
           }}
         >
           {SYSTEM_OPTIONS.map(opt => {
@@ -99,7 +113,8 @@ function SystemDropdown({ mode, onModeChange }) {
               </button>
             )
           })}
-        </div>
+        </div>,
+        document.body
       )}
     </div>
   )
