@@ -7,7 +7,12 @@ import Sidebar from './components/Sidebar'
 export default function App() {
   const [structureId, setStructureId] = useState(null)
   const [unit, setUnit] = useState('F')
-  const [theme, setTheme] = useState('dark')
+  const [theme, setTheme] = useState(() => {
+    const saved = localStorage.getItem('theme')
+    const initial = saved === 'light' ? 'light' : 'dark'
+    document.documentElement.dataset.theme = initial
+    return initial
+  })
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   const toggleTheme = useCallback(() => {
@@ -16,6 +21,7 @@ export default function App() {
     setTheme(t => {
       const next = t === 'dark' ? 'light' : 'dark'
       html.dataset.theme = next
+      localStorage.setItem('theme', next)
       return next
     })
     setTimeout(() => html.classList.remove('theme-transition'), 300)
