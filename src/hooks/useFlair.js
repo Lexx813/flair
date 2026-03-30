@@ -26,7 +26,20 @@ export function useUpdateStructure(id) {
   const qc = useQueryClient()
   return useMutation({
     mutationFn: (attributes) => api.updateStructure(id, attributes),
-    onSuccess: () => qc.invalidateQueries({ queryKey: ['structure', id] }),
+    onMutate: async (attributes) => {
+      await qc.cancelQueries({ queryKey: ['structure', id] })
+      const previous = qc.getQueryData(['structure', id])
+      qc.setQueryData(['structure', id], (old) =>
+        old ? { ...old, attributes: { ...old.attributes, ...attributes } } : old
+      )
+      return { previous }
+    },
+    onError: (_err, _vars, context) => {
+      if (context?.previous) {
+        qc.setQueryData(['structure', id], context.previous)
+      }
+    },
+    onSettled: () => qc.invalidateQueries({ queryKey: ['structure', id] }),
   })
 }
 
