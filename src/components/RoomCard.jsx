@@ -183,8 +183,6 @@ export default function RoomCard({ room, structureId, unit = 'F' }) {
     <div
       className="rounded-3xl overflow-hidden flex flex-col"
       style={{
-        marginLeft: 12.5,
-        marginRight: 12.5,
         background: active ? 'var(--card-gradient)' : 'var(--card-bg-inactive)',
         boxShadow: active ? 'var(--card-shadow)' : 'none',
         border: '1px solid var(--border-subtle)',

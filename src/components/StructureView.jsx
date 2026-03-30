@@ -91,8 +91,7 @@ export default function StructureView({ structureId, unit, onBack }) {
           schedules={schedules}
           onModeChange={(mode) => updateStructure({ mode })}
           onSetPointChange={(temp) => updateStructure({ 'set-point-temperature-c': temp })}
-          onHomeAwayChange={(mode) => updateStructure({ 'home-away-mode': mode })}
-          onHeatCoolChange={(mode) => updateStructure({ 'structure-heat-cool-mode': mode })}
+onHeatCoolChange={(mode) => updateStructure({ 'structure-heat-cool-mode': mode })}
           onHold={handleHold}
         />
       )}

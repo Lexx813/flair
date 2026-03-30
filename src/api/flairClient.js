@@ -51,6 +51,7 @@ async function apiFetch(path, options = {}) {
   })
   if (!res.ok) {
     const text = await res.text()
+    console.error(`API ${options.method ?? 'GET'} ${path} → ${res.status}`, text)
     throw new Error(`API error ${res.status}: ${text}`)
   }
   return res.json()

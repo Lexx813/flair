@@ -12,16 +12,16 @@ export default function VentBar({ vent, roomId }) {
   const { mutate, isPending } = useUpdateVent(vent.id, roomId)
 
   return (
-    <div className="flex items-center gap-3 py-1.5">
+    <div className="flex items-center gap-3 py-1">
       <Wind size={12} style={{ color: 'var(--text-muted)', flexShrink: 0 }} />
       <span className="text-xs truncate w-20" style={{ color: 'var(--text-muted)' }}>{name}</span>
-      <div className="flex gap-1 flex-1">
+      <div className="flex gap-1.5 flex-1">
         {STEPS.map(step => (
           <button
             key={step}
             disabled={isPending || inactive}
             onClick={() => mutate({ 'percent-open': step })}
-            className="flex-1 h-6 rounded-lg text-[10px] font-semibold cursor-pointer
+            className="flex-1 min-h-[44px] rounded-xl text-[10px] font-semibold cursor-pointer
               transition-all duration-150 disabled:opacity-30 disabled:cursor-not-allowed border"
             style={
               step > 0 && percent >= step

@@ -5,7 +5,8 @@ export default function Spinner({ size = 24 }) {
       height={size}
       viewBox="0 0 24 24"
       fill="none"
-      className="animate-spin text-blue-400"
+      className="animate-spin"
+      style={{ color: 'var(--accent)' }}
       stroke="currentColor"
       strokeWidth="2"
     >

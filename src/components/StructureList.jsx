@@ -1,15 +1,27 @@
 import { Home, ChevronRight } from 'lucide-react'
 import { useStructures } from '../hooks/useFlair'
 import { formatTemp } from './TempDisplay'
-import Spinner from './Spinner'
 
 export default function StructureList({ unit, onSelect }) {
   const { data: structures, isLoading, error, refetch } = useStructures()
 
   if (isLoading) {
     return (
-      <div className="flex justify-center py-20">
-        <Spinner size={32} />
+      <div className="flex flex-col gap-4">
+        <div className="h-3 w-20 rounded-full animate-pulse" style={{ background: 'var(--bg-surface)' }} />
+        {[1, 2].map(i => (
+          <div
+            key={i}
+            className="rounded-3xl px-6 py-5 flex items-center gap-5 animate-pulse"
+            style={{ background: 'var(--card-gradient)', border: '1px solid var(--border-subtle)', boxShadow: 'var(--card-shadow)' }}
+          >
+            <div className="rounded-2xl shrink-0" style={{ width: 52, height: 52, background: 'var(--bg-surface-2)' }} />
+            <div className="flex-1 flex flex-col gap-2">
+              <div className="h-4 w-32 rounded-full" style={{ background: 'var(--bg-surface-2)' }} />
+              <div className="h-3 w-16 rounded-full" style={{ background: 'var(--bg-surface-2)' }} />
+            </div>
+          </div>
+        ))}
       </div>
     )
   }
@@ -47,14 +59,20 @@ export default function StructureList({ unit, onSelect }) {
             key={s.id}
             onClick={() => onSelect(s.id)}
             className="rounded-3xl px-6 py-5 flex items-center gap-5 text-left w-full
-              cursor-pointer transition-all duration-200"
+              cursor-pointer transition-all duration-200 group"
             style={{
               background: 'var(--card-gradient)',
               boxShadow: 'var(--card-shadow)',
               border: '1px solid var(--border-subtle)',
             }}
-            onMouseEnter={e => e.currentTarget.style.borderColor = 'var(--accent-border-strong)'}
-            onMouseLeave={e => e.currentTarget.style.borderColor = 'var(--border-subtle)'}
+            onMouseEnter={e => {
+              e.currentTarget.style.borderColor = 'var(--accent-border-strong)'
+              e.currentTarget.style.boxShadow = 'var(--card-shadow), 0 0 0 1px var(--accent-border)'
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.borderColor = 'var(--border-subtle)'
+              e.currentTarget.style.boxShadow = 'var(--card-shadow)'
+            }}
           >
             <div
               className="w-13 h-13 rounded-2xl flex items-center justify-center shrink-0"
@@ -86,7 +104,7 @@ export default function StructureList({ unit, onSelect }) {
               </div>
             </div>
 
-            <ChevronRight size={18} style={{ color: 'var(--text-label)', transition: 'color 200ms' }} />
+            <ChevronRight size={18} className="transition-transform duration-200 group-hover:translate-x-0.5" style={{ color: 'var(--text-label)' }} />
           </button>
         )
       })}

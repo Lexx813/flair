@@ -132,8 +132,8 @@ const SYSTEM_OPTIONS = [
 ]
 
 const CLIMATE_OPTIONS = [
-  { value: 'cool', label: 'Cool' },
-  { value: 'heat', label: 'Heat' },
+  { value: 'Cool', label: 'Cool' },
+  { value: 'Heat', label: 'Heat' },
 ]
 
 const HOLD_OPTIONS = [
@@ -278,7 +278,7 @@ function SetPointSection({ setPointC, unit, onSetPointChange, holdUntil, onHold,
 
 export default function StructureHeader({
   structure, unit, weather, schedules,
-  onModeChange, onSetPointChange, onHomeAwayChange, onHeatCoolChange, onHold,
+  onModeChange, onSetPointChange, onHeatCoolChange, onHold,
 }) {
   const qc = useQueryClient()
   const [expanded, setExpanded] = useState(false)
@@ -287,10 +287,10 @@ export default function StructureHeader({
   const mode = attrs.mode
   const setPoint = attrs['set-point-temperature-c']
   const homeAwayMode = attrs['home-away-mode'] ?? 'home'
-  const heatCoolMode = attrs['structure-heat-cool-mode']?.toLowerCase() ?? 'cool'
+  const heatCoolMode = attrs['structure-heat-cool-mode'] ?? 'Cool'
   const holdUntil = attrs['hold-until']
   const isAuto = mode === 'auto'
-  const isHome = homeAwayMode !== 'away'
+  const isHome = homeAwayMode?.toLowerCase() !== 'away'
 
   const activeSchedule = schedules?.find(s => s.attributes['is-active'])
     ?? schedules?.find(s => s.attributes.enabled !== false)
@@ -314,16 +314,15 @@ export default function StructureHeader({
       <div className="flex items-center md:contents">
         {/* Name + Home/Away */}
         <Section icon={<Home size={18} />} label={name} className="flex-1">
-          <button
-            onClick={() => onHomeAwayChange?.(isHome ? 'away' : 'home')}
-            className="text-xs font-semibold px-2.5 py-1 rounded-full cursor-pointer transition-all"
+          <span
+            className="text-xs font-semibold px-2.5 py-1 rounded-full"
             style={isHome
               ? { background: 'var(--accent-bg)', color: 'var(--accent)', border: '1px solid var(--accent-border)' }
               : { background: 'rgba(239,68,68,0.12)', color: '#F87171', border: '1px solid rgba(239,68,68,0.25)' }
             }
           >
-            {isHome ? '● Home' : '● Away'}
-          </button>
+            ● {isHome ? 'Home' : 'Away'}
+          </span>
         </Section>
 
         {/* Mobile-only: collapse toggle + refresh in top-right */}
