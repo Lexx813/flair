@@ -1,12 +1,11 @@
 import { useEffect } from 'react'
 import {
-  Settings, BarChart2, BarChart, Wrench, BookOpen, Home,
+  Settings, BarChart, Wrench, BookOpen, Home,
   HelpCircle, Bell, User, Tag, LogOut, X, ToggleRight,
 } from 'lucide-react'
 
 const NAV_ITEMS = [
   { icon: Settings,   label: 'Home Settings' },
-  { icon: BarChart2,  label: 'Home Statistics (V1)' },
   { icon: BarChart,   label: 'Home Statistics' },
   { divider: true },
   { icon: Wrench,     label: 'Home Logs' },
