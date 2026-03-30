@@ -1,3 +1,6 @@
+const DEV_CLIENT_ID = import.meta.env.VITE_FLAIR_CLIENT_ID
+const DEV_CLIENT_SECRET = import.meta.env.VITE_FLAIR_CLIENT_SECRET
+
 let tokenData = null
 
 async function getToken() {
@@ -5,7 +8,22 @@ async function getToken() {
     return tokenData.accessToken
   }
 
-  const res = await fetch('/api/token', { method: 'POST' })
+  let res
+  if (DEV_CLIENT_ID) {
+    // Dev: call Flair directly via Vite proxy using local credentials
+    res = await fetch('/oauth2/token', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        grant_type: 'client_credentials',
+        client_id: DEV_CLIENT_ID,
+        client_secret: DEV_CLIENT_SECRET,
+      }),
+    })
+  } else {
+    // Prod: use serverless function (credentials stay server-side)
+    res = await fetch('/api/token', { method: 'POST' })
+  }
 
   if (!res.ok) {
     const errText = await res.text()

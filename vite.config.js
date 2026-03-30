@@ -10,9 +10,10 @@ export default defineConfig({
         target: 'https://api.flair.co',
         changeOrigin: true,
       },
-      '/api': {
+      '/flair': {
         target: 'https://api.flair.co',
         changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/flair/, ''),
       },
     },
   },
