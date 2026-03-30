@@ -82,6 +82,7 @@ function InlineDropdown({ value, options, onChange, placeholder }) {
       {open && createPortal(
         <div
           role="listbox"
+          onMouseDown={e => e.stopPropagation()}
           style={{
             position: 'absolute',
             top: pos.top,
@@ -243,6 +244,7 @@ function SetPointSection({ setPointC, unit, onSetPointChange, holdUntil, onHold 
             {holdOpen && createPortal(
               <div
                 role="listbox"
+                onMouseDown={e => e.stopPropagation()}
                 style={{
                   position: 'absolute',
                   top: holdPos.top,

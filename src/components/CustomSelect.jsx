@@ -62,6 +62,7 @@ export default function CustomSelect({ value, options, onChange, disabled }) {
       {open && createPortal(
         <div
           role="listbox"
+          onMouseDown={e => e.stopPropagation()}
           style={{
             position: 'absolute',
             top: pos.top,
