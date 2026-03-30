@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Fira+Sans:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+
+/* ── Dark theme (default) ────────────────────────────────── */
+:root {
+  --bg-base:            #0F172A;
+  --bg-surface:         #1E293B;
+  --bg-surface-2:       #162032;
+  --bg-input:           rgba(15,23,42,0.60);
+
+  --text-primary:       #F8FAFC;
+  --text-secondary:     #94A3B8;
+  --text-muted:         #475569;
+  --text-label:         #334155;
+
+  --border-subtle:      rgba(255,255,255,0.06);
+  --border-default:     rgba(255,255,255,0.10);
+  --border-strong:      rgba(255,255,255,0.15);
+
+  --nav-bg:             rgba(15,23,42,0.85);
+  --nav-border:         rgba(255,255,255,0.06);
+
+  --accent:             #22C55E;
+  --accent-bg:          rgba(34,197,94,0.15);
+  --accent-bg-strong:   rgba(34,197,94,0.20);
+  --accent-border:      rgba(34,197,94,0.25);
+  --accent-border-strong: rgba(34,197,94,0.30);
+
+  --card-gradient:      linear-gradient(145deg, #1E293B 0%, #162032 100%);
+  --card-shadow:        0 4px 24px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.05);
+  --card-bg-inactive:   rgba(30,41,59,0.35);
+
+  --btn-ghost-bg:       rgba(255,255,255,0.06);
+  --btn-ghost-border:   rgba(255,255,255,0.08);
+  --btn-minus-bg:       rgba(255,255,255,0.06);
+  --btn-minus-border:   rgba(255,255,255,0.09);
+  --btn-plus-bg:        rgba(34,197,94,0.14);
+  --btn-plus-border:    rgba(34,197,94,0.25);
+
+  --power-on-bg:        rgba(34,197,94,0.15);
+  --power-on-color:     #22C55E;
+  --power-on-border:    rgba(34,197,94,0.30);
+  --power-off-bg:       rgba(100,116,139,0.10);
+  --power-off-color:    #475569;
+  --power-off-border:   rgba(255,255,255,0.08);
+
+  --badge-mode-bg:      rgba(99,102,241,0.15);
+  --badge-mode-color:   #818CF8;
+
+  --setpoint-bg:        rgba(15,23,42,0.50);
+  --setpoint-border:    rgba(255,255,255,0.06);
+
+  --pill-bar-bg:        rgba(15,23,42,0.70);
+  --pill-bar-border:    rgba(255,255,255,0.07);
+  --pill-active-bg:     rgba(34,197,94,0.20);
+  --pill-active-color:  #22C55E;
+  --pill-inactive-color: #475569;
+
+  --divider:            rgba(255,255,255,0.06);
+
+  --vent-off-bg:        rgba(239,68,68,0.15);
+  --vent-off-color:     #F87171;
+  --vent-off-border:    rgba(239,68,68,0.30);
+  --vent-on-bg:         rgba(34,197,94,0.15);
+  --vent-on-color:      #4ADE80;
+  --vent-on-border:     rgba(34,197,94,0.30);
+  --vent-inactive-bg:   rgba(255,255,255,0.03);
+  --vent-inactive-color: #334155;
+  --vent-inactive-border: rgba(255,255,255,0.06);
+
+  --dropdown-bg:        #1A2744;
+  --dropdown-border:    rgba(255,255,255,0.10);
+  --dropdown-shadow:    0 8px 32px rgba(0,0,0,0.50), 0 2px 8px rgba(0,0,0,0.30);
+  --dropdown-hover:     rgba(255,255,255,0.06);
+  --dropdown-active-bg: rgba(34,197,94,0.15);
+
+  --error:              #F87171;
+  --retry-bg:           rgba(255,255,255,0.08);
+  --retry-color:        #94A3B8;
+  --retry-border:       rgba(255,255,255,0.10);
+}
+
+/* ── Light theme ─────────────────────────────────────────── */
+[data-theme="light"] {
+  --bg-base:            #F1F5F9;
+  --bg-surface:         #FFFFFF;
+  --bg-surface-2:       #F8FAFC;
+  --bg-input:           rgba(248,250,252,0.95);
+
+  --text-primary:       #0F172A;
+  --text-secondary:     #475569;
+  --text-muted:         #64748B;
+  --text-label:         #64748B;
+
+  --border-subtle:      rgba(0,0,0,0.07);
+  --border-default:     rgba(0,0,0,0.12);
+  --border-strong:      rgba(0,0,0,0.18);
+
+  --nav-bg:             rgba(241,245,249,0.92);
+  --nav-border:         rgba(0,0,0,0.08);
+
+  --accent:             #16A34A;
+  --accent-bg:          rgba(22,163,74,0.10);
+  --accent-bg-strong:   rgba(22,163,74,0.15);
+  --accent-border:      rgba(22,163,74,0.25);
+  --accent-border-strong: rgba(22,163,74,0.35);
+
+  --card-gradient:      linear-gradient(145deg, #FFFFFF 0%, #F8FAFC 100%);
+  --card-shadow:        0 2px 16px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.90);
+  --card-bg-inactive:   rgba(248,250,252,0.60);
+
+  --btn-ghost-bg:       rgba(0,0,0,0.05);
+  --btn-ghost-border:   rgba(0,0,0,0.10);
+  --btn-minus-bg:       rgba(0,0,0,0.05);
+  --btn-minus-border:   rgba(0,0,0,0.10);
+  --btn-plus-bg:        rgba(22,163,74,0.12);
+  --btn-plus-border:    rgba(22,163,74,0.25);
+
+  --power-on-bg:        rgba(22,163,74,0.12);
+  --power-on-color:     #16A34A;
+  --power-on-border:    rgba(22,163,74,0.30);
+  --power-off-bg:       rgba(100,116,139,0.08);
+  --power-off-color:    #64748B;
+  --power-off-border:   rgba(0,0,0,0.10);
+
+  --badge-mode-bg:      rgba(99,102,241,0.10);
+  --badge-mode-color:   #6366F1;
+
+  --setpoint-bg:        rgba(241,245,249,0.80);
+  --setpoint-border:    rgba(0,0,0,0.07);
+
+  --pill-bar-bg:        rgba(0,0,0,0.05);
+  --pill-bar-border:    rgba(0,0,0,0.08);
+  --pill-active-bg:     rgba(22,163,74,0.15);
+  --pill-active-color:  #16A34A;
+  --pill-inactive-color: #64748B;
+
+  --divider:            rgba(0,0,0,0.07);
+
+  --vent-off-bg:        rgba(220,38,38,0.10);
+  --vent-off-color:     #DC2626;
+  --vent-off-border:    rgba(220,38,38,0.30);
+  --vent-on-bg:         rgba(22,163,74,0.12);
+  --vent-on-color:      #16A34A;
+  --vent-on-border:     rgba(22,163,74,0.30);
+  --vent-inactive-bg:   rgba(0,0,0,0.03);
+  --vent-inactive-color: #64748B;
+  --vent-inactive-border: rgba(0,0,0,0.08);
+
+  --dropdown-bg:        #FFFFFF;
+  --dropdown-border:    rgba(0,0,0,0.12);
+  --dropdown-shadow:    0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
+  --dropdown-hover:     rgba(0,0,0,0.04);
+  --dropdown-active-bg: rgba(22,163,74,0.10);
+
+  --error:              #DC2626;
+  --retry-bg:           rgba(0,0,0,0.05);
+  --retry-color:        #64748B;
+  --retry-border:       rgba(0,0,0,0.10);
+}
+
+/* ── Base ────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-base);
+  color: var(--text-primary);
+  font-family: 'Fira Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.font-mono, .tabular-nums {
+  font-family: 'Fira Code', monospace;
+}
+
+/* Smooth theme transition */
+.theme-transition,
+.theme-transition *,
+.theme-transition *::before,
+.theme-transition *::after {
+  transition:
+    background-color 250ms ease,
+    color            200ms ease,
+    border-color     200ms ease,
+    box-shadow       200ms ease !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,0 +1,97 @@
+import { useState, useCallback } from 'react'
+import { Wind, Sun, Moon } from 'lucide-react'
+import StructureList from './components/StructureList'
+import StructureView from './components/StructureView'
+
+export default function App() {
+  const [structureId, setStructureId] = useState(null)
+  const [unit, setUnit] = useState('F')
+  const [theme, setTheme] = useState('dark')
+
+  const toggleTheme = useCallback(() => {
+    const html = document.documentElement
+    html.classList.add('theme-transition')
+    setTheme(t => {
+      const next = t === 'dark' ? 'light' : 'dark'
+      html.dataset.theme = next
+      return next
+    })
+    setTimeout(() => html.classList.remove('theme-transition'), 300)
+  }, [])
+
+  return (
+    <div className="min-h-screen" style={{ background: 'var(--bg-base)' }}>
+      {/* Nav */}
+      <header
+        className="sticky top-0 z-50"
+        style={{
+          background: 'var(--nav-bg)',
+          backdropFilter: 'blur(16px)',
+          borderBottom: '1px solid var(--nav-border)',
+        }}
+      >
+        <div className="max-w-4xl mx-auto px-5 h-14 flex items-center justify-between">
+          {/* Brand */}
+          <div className="flex items-center gap-2.5">
+            <div
+              className="w-7 h-7 rounded-lg flex items-center justify-center"
+              style={{ background: 'var(--accent-bg)' }}
+            >
+              <Wind size={16} style={{ color: 'var(--accent)' }} />
+            </div>
+            <span className="font-semibold text-sm tracking-tight" style={{ color: 'var(--text-primary)' }}>
+              Flair
+            </span>
+          </div>
+
+          {/* Controls */}
+          <div className="flex items-center gap-2">
+            {/* Theme toggle */}
+            <button
+              onClick={toggleTheme}
+              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+              className="w-9 h-9 flex items-center justify-center rounded-lg cursor-pointer
+                transition-all duration-150"
+              style={{
+                background: 'var(--btn-ghost-bg)',
+                border: '1px solid var(--btn-ghost-border)',
+              }}
+            >
+              {theme === 'dark'
+                ? <Sun size={15} style={{ color: 'var(--text-secondary)' }} />
+                : <Moon size={15} style={{ color: 'var(--text-secondary)' }} />
+              }
+            </button>
+
+            {/* Temp unit toggle */}
+            <button
+              onClick={() => setUnit(u => u === 'F' ? 'C' : 'F')}
+              className="text-xs font-semibold px-3 py-1.5 rounded-lg cursor-pointer
+                transition-all duration-150"
+              style={{
+                background: 'var(--btn-ghost-bg)',
+                color: 'var(--text-muted)',
+                border: '1px solid var(--btn-ghost-border)',
+              }}
+            >
+              °{unit === 'F' ? 'C' : 'F'}
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Content */}
+      <main className="max-w-4xl mx-auto px-5 py-7">
+        {structureId ? (
+          <StructureView
+            structureId={structureId}
+            unit={unit}
+            onBack={() => setStructureId(null)}
+          />
+        ) : (
+          <StructureList unit={unit} onSelect={setStructureId} />
+        )}
+      </main>
+    </div>
+  )
+}
