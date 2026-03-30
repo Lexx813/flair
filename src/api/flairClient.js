@@ -22,7 +22,7 @@ async function getToken() {
 
 async function apiFetch(path, options = {}) {
   const token = await getToken()
-  const res = await fetch(`/api${path}`, {
+  const res = await fetch(`/flair/api${path}`, {
     ...options,
     headers: {
       Authorization: `Bearer ${token}`,
