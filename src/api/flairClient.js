@@ -20,7 +20,10 @@ async function getToken() {
     body,
   })
 
-  if (!res.ok) throw new Error(`Auth failed: ${res.status}`)
+  if (!res.ok) {
+    const errText = await res.text()
+    throw new Error(`Auth failed ${res.status}: ${errText}`)
+  }
 
   const data = await res.json()
   tokenData = {
