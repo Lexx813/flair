@@ -72,10 +72,11 @@ export default function Sidebar({ open, onClose }) {
           </div>
           <button
             onClick={onClose}
-            className="w-8 h-8 flex items-center justify-center rounded-lg cursor-pointer transition-all"
+            aria-label="Close menu"
+            className="w-11 h-11 flex items-center justify-center rounded-xl cursor-pointer transition-all active:scale-90"
             style={{ background: 'var(--btn-ghost-bg)', border: '1px solid var(--btn-ghost-border)' }}
           >
-            <X size={14} style={{ color: 'var(--text-muted)' }} />
+            <X size={15} style={{ color: 'var(--text-muted)' }} />
           </button>
         </div>
 
@@ -89,7 +90,7 @@ export default function Sidebar({ open, onClose }) {
             return (
               <button
                 key={item.label}
-                className="w-full flex items-center gap-3 px-5 py-2.5 text-sm cursor-pointer transition-colors duration-150 text-left"
+                className="w-full flex items-center gap-3 px-5 py-2.5 min-h-[44px] text-sm cursor-pointer transition-colors duration-150 text-left active:scale-[0.98]"
                 style={{ color: item.danger ? 'var(--error)' : 'var(--text-secondary)' }}
                 onMouseEnter={e => {
                   e.currentTarget.style.background = 'var(--dropdown-hover)'

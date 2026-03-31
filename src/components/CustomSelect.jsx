@@ -39,12 +39,12 @@ export default function CustomSelect({ value, options, onChange, disabled }) {
         aria-expanded={open}
         className="w-full flex items-center justify-between gap-2 rounded-xl px-3 py-2
           text-xs font-semibold cursor-pointer transition-all duration-150
-          disabled:opacity-25 disabled:cursor-not-allowed"
+          disabled:opacity-25 disabled:cursor-not-allowed active:scale-[0.97]
+          hover:border-[var(--border-strong)] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--accent)]"
         style={{
           background: 'var(--bg-input)',
           color: 'var(--text-primary)',
-          border: '1px solid var(--border-default)',
-          outline: 'none',
+          border: open ? '1px solid var(--accent-border-strong)' : '1px solid var(--border-default)',
         }}
       >
         <span>{selected?.label ?? value ?? '—'}</span>

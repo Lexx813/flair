@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Droplets, Minus, Plus, ChevronDown, ChevronUp, Power } from 'lucide-react'
+import { Droplets, Minus, Plus, ChevronDown, ChevronUp, Power, GripVertical } from 'lucide-react'
 import { formatTemp } from './TempDisplay'
 import { useRoomPucks, useRoomPuck2s, useRoomVents, useUpdateRoom, usePuck2HvacUnits, useUpdateHvacUnit } from '../hooks/useFlair'
 import VentBar from './VentBar'
@@ -71,7 +71,7 @@ function HvacControls({ puck2Id, unit, saving: roomSaving }) {
             onClick={() => updateHvac({ power: isOn ? 'Off' : 'On' })}
             aria-label={isOn ? 'Turn off' : 'Turn on'}
             className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold
-              cursor-pointer transition-all duration-200 disabled:opacity-50 border"
+              cursor-pointer transition-all duration-200 disabled:opacity-50 border active:scale-95"
             style={isOn
               ? { background: 'var(--power-on-bg)', color: 'var(--power-on-color)', borderColor: 'var(--power-on-border)' }
               : { background: 'var(--power-off-bg)', color: 'var(--power-off-color)', borderColor: 'var(--power-off-border)' }
@@ -106,7 +106,7 @@ function HvacControls({ puck2Id, unit, saving: roomSaving }) {
               onClick={() => updateHvac({ temperature: (tempF ?? 72) - 1 })}
               aria-label="Decrease AC temperature"
               className="w-9 h-9 rounded-full flex items-center justify-center cursor-pointer
-                transition-all duration-150 disabled:opacity-25 disabled:cursor-not-allowed"
+                transition-all duration-150 disabled:opacity-25 disabled:cursor-not-allowed active:scale-90"
               style={{ background: 'var(--btn-minus-bg)', border: '1px solid var(--btn-minus-border)' }}
             >
               <Minus size={14} style={{ color: 'var(--text-secondary)' }} />
@@ -118,7 +118,7 @@ function HvacControls({ puck2Id, unit, saving: roomSaving }) {
               onClick={() => updateHvac({ temperature: (tempF ?? 72) + 1 })}
               aria-label="Increase AC temperature"
               className="w-9 h-9 rounded-full flex items-center justify-center cursor-pointer
-                transition-all duration-150 disabled:opacity-25 disabled:cursor-not-allowed"
+                transition-all duration-150 disabled:opacity-25 disabled:cursor-not-allowed active:scale-90"
               style={{ background: 'var(--btn-plus-bg)', border: '1px solid var(--btn-plus-border)' }}
             >
               <Plus size={14} style={{ color: 'var(--accent)' }} />
@@ -156,7 +156,7 @@ function HvacControls({ puck2Id, unit, saving: roomSaving }) {
   )
 }
 
-export default function RoomCard({ room, structureId, unit = 'F' }) {
+export default function RoomCard({ room, structureId, unit = 'F', dragHandleProps }) {
   const attrs = room.attributes
   const name = attrs.name || 'Room'
   const currentTempC = attrs['current-temperature-c']
@@ -203,9 +203,21 @@ export default function RoomCard({ room, structureId, unit = 'F' }) {
       {/* Header: room name + current temp */}
       <div className="px-6 pt-6 pb-5 flex items-start justify-between gap-3">
         <div className="flex flex-col gap-1">
-          <span className="text-xs font-medium uppercase tracking-widest" style={{ color: 'var(--text-secondary)' }}>
-            {name}
-          </span>
+          <div className="flex items-center gap-1.5">
+            {dragHandleProps && (
+              <span
+                {...dragHandleProps}
+                aria-label="Drag to reorder room"
+                className="cursor-grab active:cursor-grabbing p-0.5 -ml-1 rounded transition-opacity duration-150 opacity-30 hover:opacity-70 touch-none"
+                style={{ color: 'var(--text-muted)' }}
+              >
+                <GripVertical size={13} />
+              </span>
+            )}
+            <span className="text-xs font-medium uppercase tracking-widest" style={{ color: 'var(--text-secondary)' }}>
+              {name}
+            </span>
+          </div>
           <Tooltip text={active ? 'Deactivate this room (closes vents)' : 'Activate this room'}>
             <button
               onClick={() => updateRoom({ active: !active })}
@@ -265,7 +277,7 @@ export default function RoomCard({ room, structureId, unit = 'F' }) {
                   onClick={() => adjustSetPoint(-1)}
                   aria-label="Decrease set point"
                   className="w-9 h-9 rounded-full flex items-center justify-center cursor-pointer
-                    transition-all duration-150 disabled:opacity-25 disabled:cursor-not-allowed"
+                    transition-all duration-150 disabled:opacity-25 disabled:cursor-not-allowed active:scale-90"
                   style={{ background: 'var(--btn-minus-bg)', border: '1px solid var(--btn-minus-border)' }}
                 >
                   <Minus size={14} style={{ color: 'var(--text-secondary)' }} />
@@ -277,7 +289,7 @@ export default function RoomCard({ room, structureId, unit = 'F' }) {
                   onClick={() => adjustSetPoint(1)}
                   aria-label="Increase set point"
                   className="w-9 h-9 rounded-full flex items-center justify-center cursor-pointer
-                    transition-all duration-150 disabled:opacity-25 disabled:cursor-not-allowed"
+                    transition-all duration-150 disabled:opacity-25 disabled:cursor-not-allowed active:scale-90"
                   style={{ background: 'var(--btn-plus-bg)', border: '1px solid var(--btn-plus-border)' }}
                 >
                   <Plus size={14} style={{ color: 'var(--accent)' }} />

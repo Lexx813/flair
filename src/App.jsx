@@ -54,7 +54,7 @@ export default function App() {
             <button
               onClick={() => setSidebarOpen(true)}
               aria-label="Open menu"
-              className="w-9 h-9 flex items-center justify-center rounded-lg cursor-pointer transition-all duration-150"
+              className="w-9 h-9 flex items-center justify-center rounded-lg cursor-pointer transition-all duration-150 active:scale-90"
               style={{ background: 'var(--btn-ghost-bg)', border: '1px solid var(--btn-ghost-border)' }}
             >
               <Menu size={16} style={{ color: 'var(--text-secondary)' }} />
@@ -81,7 +81,7 @@ export default function App() {
                 onClick={toggleTheme}
                 aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
                 className="w-9 h-9 flex items-center justify-center rounded-lg cursor-pointer
-                  transition-all duration-150"
+                  transition-all duration-150 active:scale-90"
                 style={{
                   background: 'var(--btn-ghost-bg)',
                   border: '1px solid var(--btn-ghost-border)',
@@ -99,7 +99,7 @@ export default function App() {
               <button
                 onClick={() => setUnit(u => u === 'F' ? 'C' : 'F')}
                 className="text-xs font-semibold px-3 py-1.5 rounded-lg cursor-pointer
-                  transition-all duration-150"
+                  transition-all duration-150 active:scale-90"
                 style={{
                   background: 'var(--btn-ghost-bg)',
                   color: 'var(--text-muted)',

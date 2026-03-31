@@ -102,9 +102,9 @@
   --bg-input:           rgba(248,250,252,0.95);
 
   --text-primary:       #0F172A;
-  --text-secondary:     #475569;
-  --text-muted:         #64748B;
-  --text-label:         #64748B;
+  --text-secondary:     #334155;
+  --text-muted:         #475569;
+  --text-label:         #475569;
 
   --border-subtle:      rgba(0,0,0,0.07);
   --border-default:     rgba(0,0,0,0.12);

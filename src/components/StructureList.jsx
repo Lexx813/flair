@@ -59,7 +59,7 @@ export default function StructureList({ unit, onSelect }) {
             key={s.id}
             onClick={() => onSelect(s.id)}
             className="rounded-3xl px-6 py-5 flex items-center gap-5 text-left w-full
-              cursor-pointer transition-all duration-200 group"
+              cursor-pointer transition-all duration-200 group active:scale-[0.985]"
             style={{
               background: 'var(--card-gradient)',
               boxShadow: 'var(--card-shadow)',

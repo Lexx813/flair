@@ -69,8 +69,15 @@ function InlineDropdown({ value, options, onChange, placeholder }) {
 
   return (
     <div ref={triggerRef} className="relative">
-      <button type="button" onClick={handleOpen} className="flex items-center gap-1 cursor-pointer">
-        <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
+      <button
+        type="button"
+        onClick={handleOpen}
+        className="flex items-center gap-1 cursor-pointer rounded-lg px-2 py-1 transition-all duration-150 active:scale-95 min-h-[36px]"
+        style={{ background: open ? 'var(--btn-ghost-bg)' : 'transparent' }}
+        onMouseEnter={e => { if (!open) e.currentTarget.style.background = 'var(--btn-ghost-bg)' }}
+        onMouseLeave={e => { if (!open) e.currentTarget.style.background = 'transparent' }}
+      >
+        <span className="text-xs font-medium" style={{ color: open ? 'var(--text-primary)' : 'var(--text-muted)' }}>
           {selected?.label ?? (value || placeholder || '—')}
         </span>
         <ChevronDown
@@ -190,14 +197,14 @@ function SetPointSection({ setPointC, unit, onSetPointChange, holdUntil, onHold,
         <div className="flex items-center gap-1.5">
           <button
             onClick={() => adjust(-1)}
-            className="w-5 h-5 rounded-full flex items-center justify-center cursor-pointer transition-all"
+            className="w-5 h-5 rounded-full flex items-center justify-center cursor-pointer transition-all active:scale-90"
             style={{ background: 'var(--btn-minus-bg)', border: '1px solid var(--btn-minus-border)' }}
           >
             <Minus size={10} style={{ color: 'var(--text-secondary)' }} />
           </button>
           <button
             onClick={() => adjust(1)}
-            className="w-5 h-5 rounded-full flex items-center justify-center cursor-pointer transition-all"
+            className="w-5 h-5 rounded-full flex items-center justify-center cursor-pointer transition-all active:scale-90"
             style={{ background: 'var(--btn-plus-bg)', border: '1px solid var(--btn-plus-border)' }}
           >
             <Plus size={10} style={{ color: 'var(--accent)' }} />
@@ -336,7 +343,7 @@ export default function StructureHeader({
             onClick={() => qc.invalidateQueries()}
             title="Refresh all"
             aria-label="Refresh all data"
-            className="w-8 h-8 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-150"
+            className="w-8 h-8 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-150 active:scale-90"
             style={{ background: 'var(--btn-ghost-bg)', border: '1px solid var(--border-default)' }}
           >
             <RefreshCw size={13} style={{ color: 'var(--text-muted)' }} />
@@ -419,7 +426,7 @@ export default function StructureHeader({
             onClick={() => qc.invalidateQueries()}
             title="Refresh all"
             aria-label="Refresh all data"
-            className="w-8 h-8 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-150"
+            className="w-8 h-8 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-150 active:scale-90"
             style={{ background: 'var(--btn-ghost-bg)', border: '1px solid var(--border-default)' }}
           >
             <RefreshCw size={13} style={{ color: 'var(--text-muted)' }} />

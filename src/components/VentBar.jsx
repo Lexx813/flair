@@ -23,7 +23,7 @@ export default function VentBar({ vent, roomId }) {
               disabled={isPending || inactive}
               onClick={() => mutate({ 'percent-open': step })}
               className="flex-1 min-h-[44px] rounded-xl text-[10px] font-semibold cursor-pointer
-                transition-all duration-150 disabled:opacity-30 disabled:cursor-not-allowed border"
+                transition-all duration-150 disabled:opacity-30 disabled:cursor-not-allowed border active:scale-95"
               style={
                 step > 0 && percent >= step
                   ? { background: 'var(--vent-on-bg)', color: 'var(--vent-on-color)', borderColor: 'var(--vent-on-border)' }
