@@ -1,11 +1,10 @@
 import { useState, useRef, useEffect } from 'react'
 import { createPortal } from 'react-dom'
 import {
-  Home, RefreshCw, Settings2, ChevronDown, Calendar, Thermometer,
+  Home, Settings2, ChevronDown, Calendar, Thermometer,
   Minus, Plus, Cloud, X,
 } from 'lucide-react'
 import { formatTemp } from './TempDisplay'
-import { useQueryClient } from '@tanstack/react-query'
 
 // Desktop-only vertical rule between sections
 function Divider() {
@@ -292,7 +291,6 @@ export default function StructureHeader({
   structure, unit, weather, schedules,
   onModeChange, onSetPointChange, onHeatCoolChange, onHold,
 }) {
-  const qc = useQueryClient()
   const [expanded, setExpanded] = useState(false)
   const attrs = structure.attributes
   const name = attrs.name || 'My Home'
@@ -337,17 +335,8 @@ export default function StructureHeader({
           </span>
         </Section>
 
-        {/* Mobile-only: collapse toggle + refresh in top-right */}
+        {/* Mobile-only: collapse toggle in top-right */}
         <div className="flex items-center gap-1 pr-3 md:hidden flex-shrink-0">
-          <button
-            onClick={() => qc.invalidateQueries()}
-            title="Refresh all"
-            aria-label="Refresh all data"
-            className="w-8 h-8 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-150 active:scale-90"
-            style={{ background: 'var(--btn-ghost-bg)', border: '1px solid var(--border-default)' }}
-          >
-            <RefreshCw size={13} style={{ color: 'var(--text-muted)' }} />
-          </button>
           <button
             onClick={() => setExpanded(e => !e)}
             aria-label={expanded ? 'Collapse details' : 'Expand details'}
@@ -419,18 +408,6 @@ export default function StructureHeader({
 
         <Divider />
 
-        {/* Refresh — desktop only (mobile refresh is in the top row) */}
-        <div className="hidden md:flex items-center justify-end px-4 py-3 md:py-0 md:flex-shrink-0">
-          <button
-            onClick={() => qc.invalidateQueries()}
-            title="Refresh all"
-            aria-label="Refresh all data"
-            className="w-8 h-8 rounded-xl flex items-center justify-center cursor-pointer transition-all duration-150 active:scale-90"
-            style={{ background: 'var(--btn-ghost-bg)', border: '1px solid var(--border-default)' }}
-          >
-            <RefreshCw size={13} style={{ color: 'var(--text-muted)' }} />
-          </button>
-        </div>
       </div>
     </div>
   )
