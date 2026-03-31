@@ -138,13 +138,8 @@ const SYSTEM_OPTIONS = [
 ]
 
 const CLIMATE_OPTIONS = [
-  { value: 'cool',       label: 'Cool'       },
-  { value: 'heat',       label: 'Heat'       },
-  { value: 'heat_cool',  label: 'Heat & Cool' },
-  { value: 'auto',       label: 'Auto'       },
-  { value: 'fan_only',   label: 'Fan Only'   },
-  { value: 'dry',        label: 'Dry'        },
-  { value: 'off',        label: 'Off'        },
+  { value: 'cool', label: 'Cool' },
+  { value: 'heat', label: 'Heat' },
 ]
 
 const HOLD_OPTIONS = [

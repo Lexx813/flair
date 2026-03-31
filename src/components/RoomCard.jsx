@@ -208,8 +208,8 @@ export default function RoomCard({ room, structureId, unit = 'F', dragHandleProp
               <span
                 {...dragHandleProps}
                 aria-label="Drag to reorder room"
-                className="cursor-grab active:cursor-grabbing p-0.5 -ml-1 rounded transition-opacity duration-150 opacity-30 hover:opacity-70 touch-none"
-                style={{ color: 'var(--text-muted)' }}
+                className="cursor-grab active:cursor-grabbing p-0.5 -ml-1 rounded transition-opacity duration-150 opacity-50 hover:opacity-100 touch-none"
+                style={{ color: 'var(--text-secondary)' }}
               >
                 <GripVertical size={13} />
               </span>
@@ -234,12 +234,18 @@ export default function RoomCard({ room, structureId, unit = 'F', dragHandleProp
           </Tooltip>
         </div>
         <div className="flex flex-col items-end gap-1">
-          <span
-            className="text-5xl font-bold leading-none"
-            style={{ fontFamily: 'Fira Code, monospace', color: 'var(--text-primary)' }}
-          >
-            {formatTemp(displayTemp, unit)}
-          </span>
+          {displayTemp != null ? (
+            <span
+              className="text-5xl font-bold leading-none"
+              style={{ fontFamily: 'Fira Code, monospace', color: 'var(--text-primary)' }}
+            >
+              {formatTemp(displayTemp, unit)}
+            </span>
+          ) : (
+            <span className="text-xs font-medium" style={{ color: 'var(--text-primary)' }}>
+              No data
+            </span>
+          )}
           {displayHumidity != null && (
             <div className="flex items-center gap-1.5" style={{ color: 'var(--text-muted)' }}>
               <Droplets size={12} />
