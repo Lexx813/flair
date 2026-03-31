@@ -1,16 +1,42 @@
-# React + Vite
+# Flair Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A custom web dashboard for monitoring and controlling your [Flair](https://www.flair.co/) smart home HVAC system. Built as a faster, more information-dense alternative to the official Flair app.
 
-Currently, two official plugins are available:
+## What it does
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+**Home overview**
+- Lists all your Flair structures (homes) with their current mode and set point
 
-## React Compiler
+**Structure view**
+- Live weather and outdoor conditions for your home's location
+- System controls — switch between Auto/Manual mode and Cool/Heat
+- Set point adjustment with hold options (1h, 2h, 4h, until tonight)
+- Active schedule display
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+**Room cards**
+- Current temperature and humidity per room (from Puck or Puck2 sensor)
+- Room set point adjustment (requires Manual mode)
+- Active/Inactive toggle — deactivating a room closes its vents
+- Drag and drop to reorder rooms (order saved per home)
+- Expandable device section showing:
+  - Mini-split / AC unit controls (power, temperature, mode, fan speed) via Puck2
+  - Individual vent open percentage (0 / 25 / 50 / 75 / 100%)
 
-## Expanding the ESLint configuration
+**Also shown when available**
+- Thermostats with set point and mode control
+- Remote sensors (temperature and humidity)
+- Active alerts
+- Schedule list
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Features
+
+- Dark and light mode (preference saved across sessions)
+- Temperature unit toggle °F / °C
+- Optimistic updates — controls feel instant, roll back on error
+- Skeleton loading states while data fetches
+
+## Access
+
+Open the dashboard at: *(add your URL here)*
+
+Log in with your Flair account credentials when prompted.
