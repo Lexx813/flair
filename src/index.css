@@ -86,6 +86,12 @@
   --hold-bg:            rgba(99,102,241,0.12);
   --hold-color:         #818CF8;
   --hold-border:        rgba(99,102,241,0.25);
+
+  /* Tooltips — always dark regardless of theme */
+  --tooltip-bg:         #0F172A;
+  --tooltip-text:       #E2E8F0;
+  --tooltip-border:     rgba(255,255,255,0.12);
+  --tooltip-shadow:     0 4px 16px rgba(0,0,0,0.45), 0 1px 4px rgba(0,0,0,0.3);
 }
 
 /* ── Light theme ─────────────────────────────────────────── */
@@ -173,6 +179,12 @@
   --hold-bg:            rgba(99,102,241,0.10);
   --hold-color:         #6366F1;
   --hold-border:        rgba(99,102,241,0.25);
+
+  /* Tooltips — always dark even in light mode */
+  --tooltip-bg:         #0F172A;
+  --tooltip-text:       #E2E8F0;
+  --tooltip-border:     rgba(255,255,255,0.12);
+  --tooltip-shadow:     0 4px 16px rgba(0,0,0,0.30), 0 1px 4px rgba(0,0,0,0.2);
 }
 
 /* ── Base ────────────────────────────────────────────────── */

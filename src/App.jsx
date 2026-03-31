@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react'
 import { Routes, Route, useNavigate, useParams } from 'react-router-dom'
 import { Wind, Sun, Moon, Menu } from 'lucide-react'
+import Tooltip from './components/Tooltip'
 import StructureList from './components/StructureList'
 import StructureView from './components/StructureView'
 import Sidebar from './components/Sidebar'
