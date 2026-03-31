@@ -72,7 +72,7 @@ function InlineDropdown({ value, options, onChange, placeholder }) {
       <button
         type="button"
         onClick={handleOpen}
-        className="flex items-center gap-1 cursor-pointer rounded-lg px-2 py-1 transition-all duration-150 active:scale-95 min-h-[36px]"
+        className="flex items-center gap-1 cursor-pointer rounded-lg px-1.5 py-0.5 transition-all duration-150 active:scale-95"
         style={{ background: open ? 'var(--btn-ghost-bg)' : 'transparent' }}
         onMouseEnter={e => { if (!open) e.currentTarget.style.background = 'var(--btn-ghost-bg)' }}
         onMouseLeave={e => { if (!open) e.currentTarget.style.background = 'transparent' }}
