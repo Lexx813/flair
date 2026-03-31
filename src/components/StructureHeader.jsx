@@ -132,8 +132,8 @@ const SYSTEM_OPTIONS = [
 ]
 
 const CLIMATE_OPTIONS = [
-  { value: 'Cool', label: 'Cool' },
-  { value: 'Heat', label: 'Heat' },
+  { value: 'cool', label: 'Cool' },
+  { value: 'heat', label: 'Heat' },
 ]
 
 const HOLD_OPTIONS = [
@@ -287,7 +287,7 @@ export default function StructureHeader({
   const mode = attrs.mode
   const setPoint = attrs['set-point-temperature-c']
   const homeAwayMode = attrs['home-away-mode'] ?? 'home'
-  const heatCoolMode = attrs['structure-heat-cool-mode'] ?? 'Cool'
+  const heatCoolMode = (attrs['structure-heat-cool-mode'] ?? 'cool').toLowerCase()
   const holdUntil = attrs['hold-until']
   const isAuto = mode === 'auto'
   const isHome = homeAwayMode?.toLowerCase() !== 'away'
