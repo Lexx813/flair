@@ -398,9 +398,8 @@ export default function StructureHeader({
 
         {/* System: Heat/Cool + Auto/Manual */}
         <Section icon={<Settings2 size={18} />} label="System">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col gap-0.5">
             <InlineDropdown value={heatCoolMode} options={CLIMATE_OPTIONS} onChange={onHeatCoolChange} />
-            <span style={{ color: 'var(--divider)', fontSize: 10 }}>·</span>
             <InlineDropdown value={mode} options={SYSTEM_OPTIONS} onChange={onModeChange} />
           </div>
         </Section>
