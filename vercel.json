@@ -1,6 +1,10 @@
 {
   "rewrites": [
     {
+      "source": "/oauth2/:path*",
+      "destination": "https://api.flair.co/oauth2/:path*"
+    },
+    {
       "source": "/flair/:path*",
       "destination": "https://api.flair.co/:path*"
     },
