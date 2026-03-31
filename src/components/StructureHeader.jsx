@@ -385,12 +385,16 @@ export default function StructureHeader({
           </>
         )}
 
-        {/* System: Heat/Cool + Auto/Manual */}
+        {/* Mode: Cool/Heat */}
+        <Section icon={<Settings2 size={18} />} label="Mode">
+          <InlineDropdown value={heatCoolMode} options={CLIMATE_OPTIONS} onChange={onHeatCoolChange} />
+        </Section>
+
+        <Divider />
+
+        {/* System: Auto/Manual */}
         <Section icon={<Settings2 size={18} />} label="System">
-          <div className="flex flex-col gap-0.5">
-            <InlineDropdown value={heatCoolMode} options={CLIMATE_OPTIONS} onChange={onHeatCoolChange} />
-            <InlineDropdown value={mode} options={SYSTEM_OPTIONS} onChange={onModeChange} />
-          </div>
+          <InlineDropdown value={mode} options={SYSTEM_OPTIONS} onChange={onModeChange} />
         </Section>
 
         <Divider />
