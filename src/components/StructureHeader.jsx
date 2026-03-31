@@ -71,7 +71,7 @@ function InlineDropdown({ value, options, onChange, placeholder }) {
     <div ref={triggerRef} className="relative">
       <button type="button" onClick={handleOpen} className="flex items-center gap-1 cursor-pointer">
         <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
-          {selected?.label ?? placeholder ?? '—'}
+          {selected?.label ?? (value || placeholder || '—')}
         </span>
         <ChevronDown
           size={11}
@@ -132,8 +132,13 @@ const SYSTEM_OPTIONS = [
 ]
 
 const CLIMATE_OPTIONS = [
-  { value: 'cool', label: 'Cool' },
-  { value: 'heat', label: 'Heat' },
+  { value: 'cool',       label: 'Cool'       },
+  { value: 'heat',       label: 'Heat'       },
+  { value: 'heat_cool',  label: 'Heat & Cool' },
+  { value: 'auto',       label: 'Auto'       },
+  { value: 'fan_only',   label: 'Fan Only'   },
+  { value: 'dry',        label: 'Dry'        },
+  { value: 'off',        label: 'Off'        },
 ]
 
 const HOLD_OPTIONS = [

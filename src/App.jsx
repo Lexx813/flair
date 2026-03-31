@@ -50,14 +50,16 @@ export default function App() {
         <div className="max-w-4xl mx-auto px-5 h-14 flex items-center justify-between">
           {/* Menu + Brand */}
           <div className="flex items-center gap-3">
-          <button
-            onClick={() => setSidebarOpen(true)}
-            aria-label="Open menu"
-            className="w-9 h-9 flex items-center justify-center rounded-lg cursor-pointer transition-all duration-150"
-            style={{ background: 'var(--btn-ghost-bg)', border: '1px solid var(--btn-ghost-border)' }}
-          >
-            <Menu size={16} style={{ color: 'var(--text-secondary)' }} />
-          </button>
+          <Tooltip text="Navigation menu" side="bottom">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              aria-label="Open menu"
+              className="w-9 h-9 flex items-center justify-center rounded-lg cursor-pointer transition-all duration-150"
+              style={{ background: 'var(--btn-ghost-bg)', border: '1px solid var(--btn-ghost-border)' }}
+            >
+              <Menu size={16} style={{ color: 'var(--text-secondary)' }} />
+            </button>
+          </Tooltip>
           <div className="flex items-center gap-2.5">
             <div
               className="w-7 h-7 rounded-lg flex items-center justify-center"
@@ -74,35 +76,39 @@ export default function App() {
           {/* Controls */}
           <div className="flex items-center gap-2">
             {/* Theme toggle */}
-            <button
-              onClick={toggleTheme}
-              aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-              className="w-9 h-9 flex items-center justify-center rounded-lg cursor-pointer
-                transition-all duration-150"
-              style={{
-                background: 'var(--btn-ghost-bg)',
-                border: '1px solid var(--btn-ghost-border)',
-              }}
-            >
-              {theme === 'dark'
-                ? <Sun size={15} style={{ color: 'var(--text-secondary)' }} />
-                : <Moon size={15} style={{ color: 'var(--text-secondary)' }} />
-              }
-            </button>
+            <Tooltip text={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'} side="bottom">
+              <button
+                onClick={toggleTheme}
+                aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+                className="w-9 h-9 flex items-center justify-center rounded-lg cursor-pointer
+                  transition-all duration-150"
+                style={{
+                  background: 'var(--btn-ghost-bg)',
+                  border: '1px solid var(--btn-ghost-border)',
+                }}
+              >
+                {theme === 'dark'
+                  ? <Sun size={15} style={{ color: 'var(--text-secondary)' }} />
+                  : <Moon size={15} style={{ color: 'var(--text-secondary)' }} />
+                }
+              </button>
+            </Tooltip>
 
             {/* Temp unit toggle */}
-            <button
-              onClick={() => setUnit(u => u === 'F' ? 'C' : 'F')}
-              className="text-xs font-semibold px-3 py-1.5 rounded-lg cursor-pointer
-                transition-all duration-150"
-              style={{
-                background: 'var(--btn-ghost-bg)',
-                color: 'var(--text-muted)',
-                border: '1px solid var(--btn-ghost-border)',
-              }}
-            >
-              °{unit === 'F' ? 'C' : 'F'}
-            </button>
+            <Tooltip text={`Switch to °${unit === 'F' ? 'C' : 'F'}`} side="bottom">
+              <button
+                onClick={() => setUnit(u => u === 'F' ? 'C' : 'F')}
+                className="text-xs font-semibold px-3 py-1.5 rounded-lg cursor-pointer
+                  transition-all duration-150"
+                style={{
+                  background: 'var(--btn-ghost-bg)',
+                  color: 'var(--text-muted)',
+                  border: '1px solid var(--btn-ghost-border)',
+                }}
+              >
+                °{unit === 'F' ? 'C' : 'F'}
+              </button>
+            </Tooltip>
           </div>
         </div>
       </header>

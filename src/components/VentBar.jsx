@@ -1,5 +1,6 @@
 import { Wind } from 'lucide-react'
 import { useUpdateVent } from '../hooks/useFlair'
+import Tooltip from './Tooltip'
 
 const STEPS = [0, 25, 50, 75, 100]
 
@@ -17,22 +18,23 @@ export default function VentBar({ vent, roomId }) {
       <span className="text-xs truncate w-20" style={{ color: 'var(--text-muted)' }}>{name}</span>
       <div className="flex gap-1.5 flex-1">
         {STEPS.map(step => (
-          <button
-            key={step}
-            disabled={isPending || inactive}
-            onClick={() => mutate({ 'percent-open': step })}
-            className="flex-1 min-h-[44px] rounded-xl text-[10px] font-semibold cursor-pointer
-              transition-all duration-150 disabled:opacity-30 disabled:cursor-not-allowed border"
-            style={
-              step > 0 && percent >= step
-                ? { background: 'var(--vent-on-bg)', color: 'var(--vent-on-color)', borderColor: 'var(--vent-on-border)' }
-                : step === 0 && percent === 0
-                  ? { background: 'var(--vent-off-bg)', color: 'var(--vent-off-color)', borderColor: 'var(--vent-off-border)' }
-                  : { background: 'var(--vent-inactive-bg)', color: 'var(--vent-inactive-color)', borderColor: 'var(--vent-inactive-border)' }
-            }
-          >
-            {step === 0 ? '✕' : `${step}`}
-          </button>
+          <Tooltip key={step} text={step === 0 ? 'Close vent' : `Open vent to ${step}%`}>
+            <button
+              disabled={isPending || inactive}
+              onClick={() => mutate({ 'percent-open': step })}
+              className="flex-1 min-h-[44px] rounded-xl text-[10px] font-semibold cursor-pointer
+                transition-all duration-150 disabled:opacity-30 disabled:cursor-not-allowed border"
+              style={
+                step > 0 && percent >= step
+                  ? { background: 'var(--vent-on-bg)', color: 'var(--vent-on-color)', borderColor: 'var(--vent-on-border)' }
+                  : step === 0 && percent === 0
+                    ? { background: 'var(--vent-off-bg)', color: 'var(--vent-off-color)', borderColor: 'var(--vent-off-border)' }
+                    : { background: 'var(--vent-inactive-bg)', color: 'var(--vent-inactive-color)', borderColor: 'var(--vent-inactive-border)' }
+              }
+            >
+              {step === 0 ? '✕' : `${step}`}
+            </button>
+          </Tooltip>
         ))}
       </div>
       <span
