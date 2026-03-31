@@ -195,9 +195,18 @@ export default function RoomCard({ room, structureId, unit = 'F' }) {
           <span className="text-xs font-medium uppercase tracking-widest" style={{ color: 'var(--text-secondary)' }}>
             {name}
           </span>
-          <span className="text-xs font-medium" style={{ color: active ? 'var(--accent)' : 'var(--text-muted)' }}>
+          <button
+            onClick={() => updateRoom({ active: !active })}
+            disabled={saving}
+            className="text-xs font-semibold px-2 py-0.5 rounded-full cursor-pointer
+              transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed border w-fit"
+            style={active
+              ? { background: 'var(--accent-bg)', color: 'var(--accent)', borderColor: 'var(--accent-border)' }
+              : { background: 'var(--btn-ghost-bg)', color: 'var(--text-muted)', borderColor: 'var(--border-default)' }
+            }
+          >
             {active ? 'Active' : 'Inactive'}
-          </span>
+          </button>
         </div>
         <div className="flex flex-col items-end gap-1">
           <span
